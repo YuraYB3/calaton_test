@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../ModelView/colorsservice.dart';
-import '../ModelView/login_viewmodel.dart';
+import '../Utils/colors_service.dart';
+import '../ViewModel/login_viewmodel.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

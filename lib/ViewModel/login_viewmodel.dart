@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'errorservice.dart';
-import 'inputservice.dart';
-import 'navigationservice.dart';
-import 'userdatastorage.dart';
+import '../Utils/notifications.dart';
+import '../Utils/input_service.dart';
+import 'navigation_service.dart';
+import '../Services/user_data_storage.dart';
 
 class LoginViewModel extends ChangeNotifier {
   late UserDataStorage _userDataStorage;
   late InputValidator _inputValidator;
   late NavigationService _navigationService;
-  ErrorService errorService = ErrorService();
+  NotificationsHelper errorService = NotificationsHelper();
 
   String _email = '';
   String _password = '';
@@ -40,12 +40,16 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> validateAndNavigate(
       BuildContext context, String email, String password) async {
-    if (_inputValidator.isNotEmpty(email) &&
-        _inputValidator.isNotEmpty(password)) {
-      await _userDataStorage.saveUserData(email, password);
-      _navigationService.navigateToHomePage(context);
+    if (_inputValidator.isEmailValid(email) &&
+        _inputValidator.isPasswordValid(password)) {
+      try {
+        await _userDataStorage.saveUserData(email, password);
+        _navigationService.navigateToHomePage(context);
+      } catch (e) {
+        errorService.show(context, 'Couldnt save your data');
+      }
     } else {
-      errorService.showSnackBar(
+      errorService.show(
           context, 'Please fill in both email and password fields.');
     }
   }

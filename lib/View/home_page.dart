@@ -1,9 +1,10 @@
 // second_page.dart
+import 'package:calaton_test/Model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../ModelView/apiservice.dart';
-import '../ModelView/colorsservice.dart';
+import '../Services/api_service.dart';
+import '../Utils/colors_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late ApiService _apiService;
-  List<Map<String, String>> dataList = [];
+  List<UserModel> dataList = [];
   ColorService colorService = ColorService();
 
   @override
@@ -25,7 +26,7 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchData() async {
-    List<Map<String, String>> newData = await _apiService.fetchData();
+    List<UserModel> newData = await _apiService.fetchData();
     setState(() {
       dataList = newData;
     });
@@ -53,11 +54,11 @@ class HomePageState extends State<HomePage> {
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(
-            dataList[index]['name'] ?? '',
+            dataList[index].email,
             style: const TextStyle(color: Colors.black),
           ),
           subtitle: Text(
-            dataList[index]['email'] ?? '',
+            dataList[index].name,
             style: const TextStyle(color: Colors.grey),
           ),
         );

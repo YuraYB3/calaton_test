@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../View/homepage.dart';
-import '../View/loginpage.dart';
+import '../View/home_page.dart';
+import '../View/login_page.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
