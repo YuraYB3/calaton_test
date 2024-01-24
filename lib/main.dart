@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'View/homepage.dart';
-import 'View/loginpage.dart';
+import 'ModelView/apiservice.dart';
+import 'ModelView/login_viewmodel.dart';
+import 'ModelView/wrapper.dart';
 
 void main() {
-  runApp(const App());
-}
-
-class App extends StatelessWidget {
-  const App({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginPage(),
-        '/homepage': (context) => HomePage(),
-      },
-    );
-  }
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ApiService()),
+        ChangeNotifierProvider(create: (context) => LoginViewModel()),
+      ],
+      child: const Wrapper(),
+    ),
+  );
 }
