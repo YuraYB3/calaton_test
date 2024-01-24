@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'ModelView/apiservice.dart';
-import 'ModelView/login_viewmodel.dart';
-import 'ModelView/wrapper.dart';
+import 'Services/api_service.dart';
+import 'ViewModel/login_viewmodel.dart';
+import 'ViewModel/wrapper.dart';
 
 void main() {
   runApp(
