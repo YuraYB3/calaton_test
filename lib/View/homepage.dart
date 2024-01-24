@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../ModelView/apiservice.dart';
+import '../ModelView/colorsservice.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   late ApiService _apiService;
   List<Map<String, String>> dataList = [];
+  ColorService colorService = ColorService();
 
   @override
   void initState() {
@@ -32,20 +34,34 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: colorService.backgroundColor,
+      ),
       body: Center(
         child: dataList.isEmpty
-            ? const CircularProgressIndicator()
-            : ListView.builder(
-                itemCount: dataList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(dataList[index]['name'] ?? ''),
-                    subtitle: Text(dataList[index]['email'] ?? ''),
-                  );
-                },
-              ),
+            ? const CircularProgressIndicator(
+                color: Colors.amber,
+              )
+            : listOfUsersWidget(),
       ),
+    );
+  }
+
+  ListView listOfUsersWidget() {
+    return ListView.builder(
+      itemCount: dataList.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(
+            dataList[index]['name'] ?? '',
+            style: const TextStyle(color: Colors.black),
+          ),
+          subtitle: Text(
+            dataList[index]['email'] ?? '',
+            style: const TextStyle(color: Colors.grey),
+          ),
+        );
+      },
     );
   }
 }

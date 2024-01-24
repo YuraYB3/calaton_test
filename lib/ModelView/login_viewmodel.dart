@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'errorservice.dart';
 import 'inputservice.dart';
 import 'navigationservice.dart';
 import 'userdatastorage.dart';
@@ -8,6 +9,7 @@ class LoginViewModel extends ChangeNotifier {
   late UserDataStorage _userDataStorage;
   late InputValidator _inputValidator;
   late NavigationService _navigationService;
+  ErrorService errorService = ErrorService();
 
   String _email = '';
   String _password = '';
@@ -43,8 +45,8 @@ class LoginViewModel extends ChangeNotifier {
       await _userDataStorage.saveUserData(email, password);
       _navigationService.navigateToHomePage(context);
     } else {
-      // ignore: avoid_print
-      print('object');
+      errorService.showSnackBar(
+          context, 'Please fill in both email and password fields.');
     }
   }
 }

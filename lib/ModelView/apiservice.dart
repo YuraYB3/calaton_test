@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../Model/user_model.dart';
+import 'errorservice.dart';
 
 class ApiService extends ChangeNotifier {
+  ErrorService errorService = ErrorService();
   Future<List<Map<String, String>>> fetchData() async {
     late Dio dio;
     dio = Dio();
@@ -19,8 +21,6 @@ class ApiService extends ChangeNotifier {
           .map((user) => {'name': user.name, 'email': user.email})
           .toList();
     } catch (error) {
-      // ignore: avoid_print
-      print('Error fetching data: $error');
       return [];
     }
   }

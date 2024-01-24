@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../ModelView/colorsservice.dart';
 import '../ModelView/login_viewmodel.dart';
 
 class LoginPage extends StatelessWidget {
@@ -9,10 +10,11 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var viewModel = Provider.of<LoginViewModel>(context, listen: true);
+    ColorService colorService = ColorService();
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 19, 168, 123),
+        backgroundColor: colorService.backgroundColor,
       ),
       body: Center(
         child: Column(
@@ -23,7 +25,7 @@ class LoginPage extends StatelessWidget {
                 width: 300,
                 height: 300,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 19, 168, 123),
+                    color: colorService.backgroundColor,
                     borderRadius: BorderRadius.circular(30)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -31,7 +33,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     emailField(viewModel),
                     passwordField(viewModel),
-                    loginButton(viewModel, context),
+                    loginButton(viewModel, context, colorService),
                   ],
                 ),
               ),
@@ -47,7 +49,17 @@ class LoginPage extends StatelessWidget {
       width: 250,
       child: TextField(
         onChanged: (value) => viewModel.updateEmail(value),
-        decoration: const InputDecoration(labelText: 'Email'),
+        decoration: const InputDecoration(
+            labelText: 'Email',
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.amberAccent),
+            ),
+            labelStyle: TextStyle(
+              color: Colors.amberAccent,
+            )),
       ),
     );
   }
@@ -55,18 +67,26 @@ class LoginPage extends StatelessWidget {
 
 SizedBox passwordField(LoginViewModel viewModel) {
   return SizedBox(
-    width: 250,
-    child: TextField(
-      obscureText: true,
-      onChanged: (value) => viewModel.updatePassword(value),
-      decoration: const InputDecoration(
-        labelText: 'Password',
-      ),
-    ),
-  );
+      width: 250,
+      child: TextField(
+        obscureText: true,
+        onChanged: (value) => viewModel.updatePassword(value),
+        decoration: const InputDecoration(
+            labelText: 'Password',
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.amberAccent),
+            ),
+            labelStyle: TextStyle(
+              color: Colors.amberAccent,
+            )),
+      ));
 }
 
-SizedBox loginButton(LoginViewModel viewModel, BuildContext context) {
+SizedBox loginButton(
+    LoginViewModel viewModel, BuildContext context, ColorService colorService) {
   return SizedBox(
     width: 250,
     child: ElevatedButton(
@@ -80,10 +100,9 @@ SizedBox loginButton(LoginViewModel viewModel, BuildContext context) {
           viewModel.password,
         );
       },
-      child: const Text(
+      child: Text(
         'LOGIN',
-        style:
-            TextStyle(color: Color.fromARGB(255, 19, 168, 123), fontSize: 16),
+        style: TextStyle(color: colorService.backgroundColor),
       ),
     ),
   );
